@@ -4,7 +4,7 @@ import ogbench
 from utils.datasets import Dataset
 
 
-def make_env_and_datasets(dataset_name, dataset_path, dataset_only=False, cur_env=None):
+def make_env_and_datasets(dataset_name, dataset_path, dataset_only=False, cur_env=None, **env_kwargs):
     """Make OGBench environment and datasets.
 
     Args:
@@ -18,11 +18,13 @@ def make_env_and_datasets(dataset_name, dataset_path, dataset_only=False, cur_en
     """
     if dataset_only:
         train_dataset, val_dataset = ogbench.make_env_and_datasets(
-            dataset_name, dataset_path=dataset_path, compact_dataset=True, dataset_only=dataset_only, cur_env=cur_env
+            dataset_name, dataset_path=dataset_path, compact_dataset=True, dataset_only=dataset_only, cur_env=cur_env,
+            **env_kwargs,
         )
     else:
         env, train_dataset, val_dataset = ogbench.make_env_and_datasets(
-            dataset_name, dataset_path=dataset_path, compact_dataset=True, dataset_only=dataset_only, cur_env=cur_env
+            dataset_name, dataset_path=dataset_path, compact_dataset=True, dataset_only=dataset_only, cur_env=cur_env,
+            **env_kwargs,
         )
     train_dataset = Dataset.create(**train_dataset)
     val_dataset = Dataset.create(**val_dataset)

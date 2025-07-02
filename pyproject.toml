@@ -1,7 +1,19 @@
 [project]
 name = "horizon-reduction"
 version = "0.0.0"
-requires-python = ">= 3.9"
+requires-python = ">= 3.11"
+dependencies = [
+    "distrax>=0.1.5",
+    "flax>=0.8.4",
+    "jax[cuda12]>=0.4.26",
+    "matplotlib>=3.9.4",
+    "ml-collections>=0.1.1",
+    "moviepy>=2.2.1",
+    "ogbench",
+    "pyopengl-accelerate>=3.1.9",
+    "rich>=14.0.0",
+    "wandb>=0.20.1",
+]
 
 [project.optional-dependencies]
 dev = [
@@ -14,3 +26,6 @@ line-length = 120
 
 [tool.ruff.format]
 quote-style = "single"
+
+[tool.uv.sources]
+ogbench = { path = "../ogbench", editable = true }

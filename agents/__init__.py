@@ -1,4 +1,6 @@
 from agents.crl import CRLAgent
+from agents.cfgrl import CFGRLAgent
+from agents.hcfgrl import HCFGRLAgent
 from agents.dsharsa import DSHARSAAgent
 from agents.gcfbc import GCFBCAgent
 from agents.gcfql import GCFQLAgent
@@ -11,6 +13,8 @@ from agents.sharsa import SHARSAAgent
 
 agents = dict(
     crl=CRLAgent,
+    cfgrl=CFGRLAgent,
+    hcfgrl=HCFGRLAgent,
     dsharsa=DSHARSAAgent,
     gcfbc=GCFBCAgent,
     gcfql=GCFQLAgent,

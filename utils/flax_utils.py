@@ -66,6 +66,7 @@ class TrainState(flax.struct.PyTreeNode):
     apply_fn: Any = nonpytree_field()
     model_def: Any = nonpytree_field()
     params: Any
+    params_ema: Any
     tx: Any = nonpytree_field()
     opt_state: Any
 
@@ -82,10 +83,27 @@ class TrainState(flax.struct.PyTreeNode):
             apply_fn=model_def.apply,
             model_def=model_def,
             params=params,
+            params_ema=params,  # Initialize EMA params as original params.
             tx=tx,
             opt_state=opt_state,
             **kwargs,
         )
+
+
+    def call_ema(self, *args, params=None, method=None, **kwargs):
+        return self.__call__(*args, params=self.params_ema, method=method, **kwargs)
+
+    def select_ema(self, name):
+        """Helper function to select a module from a `ModuleDict`."""
+        return functools.partial(self, name=name, params=self.params_ema)
+
+    # Tau should be close to 1, e.g. 0.999.
+    def update_ema(self, tau):
+        new_params_ema = jax.tree_map(
+            lambda p, tp: p * (1-tau) + tp * tau, self.params, self.params_ema
+        )
+        return self.replace(params_ema=new_params_ema)
+
 
     def __call__(self, *args, params=None, method=None, **kwargs):
         """Forward pass.

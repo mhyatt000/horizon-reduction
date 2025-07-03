@@ -114,6 +114,7 @@ def evaluate(
             add_to(traj, transition)
             observation = next_observation
         if i < num_eval_episodes:
+            info['len'] = step
             add_to(stats, flatten(info))
             trajs.append(traj)
         else:

@@ -29,13 +29,6 @@ def make_env_and_datasets(dataset_name, dataset_path, dataset_only=False, cur_en
     train_dataset = Dataset.create(**train_dataset)
     val_dataset = Dataset.create(**val_dataset)
 
-    # Clip dataset actions.
-    eps = 1e-5
-    train_dataset = train_dataset.copy(
-        add_or_replace=dict(actions=np.clip(train_dataset['actions'], -1 + eps, 1 - eps))
-    )
-    val_dataset = val_dataset.copy(add_or_replace=dict(actions=np.clip(val_dataset['actions'], -1 + eps, 1 - eps)))
-
     if dataset_only:
         return train_dataset, val_dataset
     else:
